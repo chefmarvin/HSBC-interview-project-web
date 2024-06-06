@@ -10,7 +10,7 @@ function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getTopN(12)
+      const data = await getTopN(10)
       setCount(data)
     }
 
