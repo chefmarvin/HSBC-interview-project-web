@@ -1,8 +1,9 @@
 import axios from 'axios';
+import { TopNtopNnGetData } from "./idl";
 
 const baseURL = import.meta.env.DEV ? import.meta.env.VITE_API_URL_DEV : import.meta.env.VITE_API_URL_PROD;
 
-export const getTopN = async (n: number) => {
+export const getTopN = async (n: number): Promise<TopNtopNnGetData | undefined> => {
   try {
     const { data: num } = await axios({
       method: "get",
