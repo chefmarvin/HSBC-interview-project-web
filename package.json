@@ -12,15 +12,20 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.3.7",
+    "@fluentui/react": "^8.118.7",
     "antd": "^5.18.0",
     "axios": "^1.7.2",
+    "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router": "^6.23.1"
+    "react-router": "^6.23.1",
+    "react-router-dom": "^6.23.1",
+    "styled-components": "^6.1.11"
   },
   "devDependencies": {
     "@hey-api/openapi-ts": "^0.46.3",
     "@types/axios": "^0.14.0",
+    "@types/lodash": "^4.17.5",
     "@types/node": "^20.14.1",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
