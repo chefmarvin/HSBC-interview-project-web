@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import SearchSymbol from '../components/SearchSymbol'
 import SymbolSummaryList from '../components/SymbolSummaryList'
 import styled from "styled-components";
+import {defaultList} from "../api.tsx";
+import {groupYFinanceDataInOrder, transformYFinanceData} from "../utils.ts";
+import DataContext from "../DataContext.tsx";
 
 const SectionWrapper = styled.div`
   margin: 16px 0px;
@@ -19,6 +22,22 @@ const PageWrapper = styled.div`
 `
 
 const HomePage: React.FC = () => {
+  const { setDefaultSymbolList} = useContext(DataContext)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await defaultList()
+      if (data) {
+        const groupedYFinanceData = groupYFinanceDataInOrder(transformYFinanceData(data))
+        data && setDefaultSymbolList!(groupedYFinanceData)
+      } else {
+        // todo: error
+      }
+    }
+
+    fetchData()
+  }, [])
+
   return (
     <PageWrapper>
       <p className="project-name">Mutual Funds & Stocks</p>

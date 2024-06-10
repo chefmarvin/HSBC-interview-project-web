@@ -3,6 +3,7 @@ import {IYFinanceGenericData, IYFinanceHistoryData} from "./idl"
 
 export type AppContextType = {
   defaultSymbolList: IYFinanceGenericData[]
+  setDefaultSymbolList?: (symbol: IYFinanceGenericData[]) => void
   cursoredSymbol?: IYFinanceGenericData
   setCursoredSymbol?: (symbol: IYFinanceGenericData) => void
   cursoredSymbolHistory?: IYFinanceHistoryData[]
