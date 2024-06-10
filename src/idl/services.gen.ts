@@ -3,25 +3,7 @@
 import type { CancelablePromise } from './core/CancelablePromise';
 import { OpenAPI } from './core/OpenAPI';
 import { request as __request } from './core/request';
-import type { TopNtopNnGetData, TopNtopNnGetResponse, RootGetResponse, SayHelloHelloNameGetData, SayHelloHelloNameGetResponse } from './types.gen';
-
-/**
- * Top N
- * @param data The data for the request.
- * @param data.n
- * @returns unknown Successful Response
- * @throws ApiError
- */
-export const topNTopNNGet = (data: TopNtopNnGetData): CancelablePromise<TopNtopNnGetResponse> => { return __request(OpenAPI, {
-    method: 'GET',
-    url: '/top-n/{n}',
-    path: {
-        n: data.n
-    },
-    errors: {
-        422: 'Validation Error'
-    }
-}); };
+import type { RootGetResponse, DefaultSymbolsListDefaultSymbolsListGetResponse, SearchBySymbolSearchBySymbolSymbolGetData, SearchBySymbolSearchBySymbolSymbolGetResponse, HistoryBySymbolHistoryBySymbolSymbolGetData, HistoryBySymbolHistoryBySymbolSymbolGetResponse, GenAiAnalysisAnalysisByGenAiSymbolGetData, GenAiAnalysisAnalysisByGenAiSymbolGetResponse } from './types.gen';
 
 /**
  * Root
@@ -34,17 +16,95 @@ export const rootGet = (): CancelablePromise<RootGetResponse> => { return __requ
 }); };
 
 /**
- * Say Hello
- * @param data The data for the request.
- * @param data.name
- * @returns unknown Successful Response
+ * Default Symbols List
+ * Retrieves the data for the default set of symbols.
+ *
+ * Returns:
+ * Dict[str, IYFinanceGenericData]: A dictionary where the key is the symbol and the value is an IYFinanceGenericData object representing the data for the given symbol.
+ *
+ * Raises:
+ * HTTPException: If there is an error in fetching the data, an HTTPException is raised with a 500 status code.
+ * @returns IYFinanceGenericData Successful Response
  * @throws ApiError
  */
-export const sayHelloHelloNameGet = (data: SayHelloHelloNameGetData): CancelablePromise<SayHelloHelloNameGetResponse> => { return __request(OpenAPI, {
+export const defaultSymbolsListDefaultSymbolsListGet = (): CancelablePromise<DefaultSymbolsListDefaultSymbolsListGetResponse> => { return __request(OpenAPI, {
     method: 'GET',
-    url: '/hello/{name}',
+    url: '/default-symbols-list/'
+}); };
+
+/**
+ * Search By Symbol
+ * Retrieves the data for a given symbol from Yahoo Finance.
+ *
+ * Args:
+ * symbol (str): The symbol for which the data is to be retrieved.
+ *
+ * Returns:
+ * Dict[str, IYFinanceGenericData]: A dictionary where the key is the symbol and the value is an IYFinanceGenericData object representing the data for the given symbol.
+ *
+ * Raises:
+ * HTTPException: If there is an error in fetching the data, an HTTPException is raised with a 500 status code.
+ * @param data The data for the request.
+ * @param data.symbol
+ * @returns IYFinanceGenericData Successful Response
+ * @throws ApiError
+ */
+export const searchBySymbolSearchBySymbolSymbolGet = (data: SearchBySymbolSearchBySymbolSymbolGetData): CancelablePromise<SearchBySymbolSearchBySymbolSymbolGetResponse> => { return __request(OpenAPI, {
+    method: 'GET',
+    url: '/search/by-symbol/{symbol}/',
     path: {
-        name: data.name
+        symbol: data.symbol
+    },
+    errors: {
+        422: 'Validation Error'
+    }
+}); };
+
+/**
+ * History By Symbol
+ * Retrieves the historical data for a given symbol from Yahoo Finance.
+ *
+ * Args:
+ * symbol (str): The symbol for which the historical data is to be retrieved.
+ * period (str, optional): The period for which the historical data is to be retrieved. Defaults to DEFAULT_HISTORY_PERIOD.
+ *
+ * Returns:
+ * List[IYFinanceHistoryData]: A list of IYFinanceHistoryData objects, each representing the historical data for the given symbol for a specific date.
+ *
+ * Raises:
+ * HTTPException: If there is an error in fetching the data, an HTTPException is raised with a 500 status code.
+ * @param data The data for the request.
+ * @param data.symbol
+ * @param data.period
+ * @returns IYFinanceHistoryData Successful Response
+ * @throws ApiError
+ */
+export const historyBySymbolHistoryBySymbolSymbolGet = (data: HistoryBySymbolHistoryBySymbolSymbolGetData): CancelablePromise<HistoryBySymbolHistoryBySymbolSymbolGetResponse> => { return __request(OpenAPI, {
+    method: 'GET',
+    url: '/history/by-symbol/{symbol}/',
+    path: {
+        symbol: data.symbol
+    },
+    query: {
+        period: data.period
+    },
+    errors: {
+        422: 'Validation Error'
+    }
+}); };
+
+/**
+ * Genai Analysis
+ * @param data The data for the request.
+ * @param data.symbol
+ * @returns IGenAIReport Successful Response
+ * @throws ApiError
+ */
+export const genAiAnalysisAnalysisByGenAiSymbolGet = (data: GenAiAnalysisAnalysisByGenAiSymbolGetData): CancelablePromise<GenAiAnalysisAnalysisByGenAiSymbolGetResponse> => { return __request(OpenAPI, {
+    method: 'GET',
+    url: '/analysis/by-genAI/{symbol}/',
+    path: {
+        symbol: data.symbol
     },
     errors: {
         422: 'Validation Error'

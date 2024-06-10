@@ -11,6 +11,8 @@
     "generate-client": "curl http://localhost:8000/openapi.json -o openapi.json && rm -rf client && openapi-ts -i openapi.json -o src/idl"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.3.7",
+    "antd": "^5.18.0",
     "axios": "^1.7.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
