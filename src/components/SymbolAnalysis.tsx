@@ -3,6 +3,21 @@ import { useParams } from "react-router-dom"
 import { genaiAnalysis } from '../api'
 import { GenAiAnalysisAnalysisByGenAiSymbolGetData, IGenAIReport } from "../idl"
 import DataContext from "../DataContext.tsx"
+import styled from "styled-components";
+
+const AnalysisWrapper = styled.div`
+  .trigger-analyze {
+    display: flex;
+    justify-content: right;
+  }
+  .report {
+    width: 100%;
+    max-width: 80vw;
+    display: block;
+    white-space: pre-line;
+    word-wrap: break-word;
+  }
+`
 
 const SymbolAnalysis = () => {
   const { id } = useParams()
@@ -17,15 +32,16 @@ const SymbolAnalysis = () => {
   };
 
   return (
-    <div>
-      <button onClick={fetchAnalysis}>AI Analysis</button>
+    <AnalysisWrapper>
+      <div className="trigger-analyze">
+        <button onClick={fetchAnalysis}>AI Analysis</button>
+      </div>
       {analysis && (
-        <>
-          <h2>Analysis Report</h2>
-          <pre>{JSON.stringify(analysis.report)}</pre>
-        </>
+        <div className="report">
+          <div>{analysis.report}</div>
+        </div>
       )}
-    </div>
+    </AnalysisWrapper>
   )
 }
 

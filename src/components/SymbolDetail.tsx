@@ -81,6 +81,27 @@ const DetailWrapper = styled.div`
       }
     }
   }
+  .more-data {
+    margin: 16px 0;
+    display: flex;
+    flex-direction: row;
+    .left {
+      width: 50%;
+      text-align: left;
+      font-size: 14px;
+      div {
+        border-bottom: 1px solid #666666;
+      }
+    }
+    .right {
+      width: 50%;
+      text-align: right;
+      font-size: 14px;
+      div {
+        border-bottom: 1px solid #666666;
+      }
+    }
+  }
 `
 
 // Register the required components
@@ -223,6 +244,29 @@ const SymbolDetail = () => {
           />
         </div>
       )}
+      <div className="more-data">
+        <div className="left">
+          <div>52 Week Low: {cursoredSymbol?.info?.fiftyTwoWeekLow}</div>
+          <div>52 Week High: {cursoredSymbol?.info?.fiftyTwoWeekHigh}</div>
+          <div>Yield: {cursoredSymbol?.info?.yield || '-'}</div>
+        </div>
+        <div className="right">
+          <div>Beta: {cursoredSymbol?.info?.beta || '-'}</div>
+          {cursoredSymbol?.info?.quoteType === 'MUTUALFUND' && (
+            <>
+              <div>MorningStarRiskRating: {cursoredSymbol?.info?.morningStarRiskRating}</div>
+              <div>MorningStarOverallRating: {cursoredSymbol?.info?.morningStarOverallRating}</div>
+            </>
+          )}
+          {cursoredSymbol?.info?.quoteType !== 'MUTUALFUND' && (
+            <>
+              <div>Today's Low: {cursoredSymbol?.info?.dayLow}</div>
+              <div>Today's High: {cursoredSymbol?.info?.dayHigh}</div>
+            </>
+          )}
+
+        </div>
+      </div>
       <></>
     </DetailWrapper>
   )
