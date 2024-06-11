@@ -22,7 +22,7 @@ const AnalysisWrapper = styled.div`
 
 const SymbolAnalysis = () => {
   const { id } = useParams()
-  const { cursoredSymbol, cursoredSymbolHistory } = useContext(DataContext)
+  const { cursoredSymbol  } = useContext(DataContext)
   const [analysis, setAnalysis] = useState<IGenAIReport | undefined>(undefined)
   const [isLoading, setIsLoading] = useState(false)
 
