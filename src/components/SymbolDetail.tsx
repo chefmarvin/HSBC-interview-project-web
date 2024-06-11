@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react'
+import {useEffect, useContext, useState} from 'react'
 import { useParams } from 'react-router-dom'
 import EChartsReactCore from 'echarts-for-react/lib/core'
 import * as echarts from 'echarts/core'
@@ -10,6 +10,7 @@ import { historyBySymbol, searchBySymbol } from "../api.tsx"
 import { transformYFinanceData } from "../utils.ts"
 import {format} from "date-fns";
 import styled from "styled-components"
+import LoadingComponent from "./Loading.tsx";
 
 const DetailWrapper = styled.div`
   min-width: 80vw;
@@ -117,9 +118,11 @@ const SymbolDetail = () => {
     cursoredSymbolHistory,
     setCursoredSymbolHistory
   } = useContext(DataContext)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true)
       if (!cursoredSymbol) {
         const result = await searchBySymbol({ symbol: id! })
         if (result && result[id!]) {
@@ -135,6 +138,7 @@ const SymbolDetail = () => {
         period: 'max'
       })
       history && setCursoredSymbolHistory && setCursoredSymbolHistory(history)
+      setIsLoading(false)
     };
 
     fetchData()
@@ -171,14 +175,18 @@ const SymbolDetail = () => {
       )}
       {cursoredSymbolHistory && (
         <div>
-          <EChartsReactCore
-            echarts={echarts}
-            option={{
-              tooltip: {
-                trigger: 'axis',
-                formatter: function (params: any[]) {
-                  const data = params[0].data
-                  return `
+          {isLoading ? (
+            <LoadingComponent />
+          ) : (
+            <>
+              <EChartsReactCore
+                echarts={echarts}
+                option={{
+                  tooltip: {
+                    trigger: 'axis',
+                    formatter: function (params: any[]) {
+                      const data = params[0].data
+                      return `
                     <div>
                       Date: ${data[0]}<br/>
                       Open: ${parseFloat(data[1]).toFixed(2)}<br/>
@@ -187,61 +195,63 @@ const SymbolDetail = () => {
                       High: ${parseFloat(data[4]).toFixed(2)}
                     </div>
                   `
-                },
-                position: (pt: number[]) => [pt[0], '10%']
-              },
-              xAxis: {
-                type: 'time',
-                boundaryGap: false
-              },
-              yAxis: {
-                type: 'value',
-                boundaryGap: [0, '100%']
-              },
-              dataZoom: [
-                {
-                  type: 'inside',
-                  start: 80,
-                  end: 100
-                },
-                {
-                  start: 80,
-                  end: 100
-                }
-              ],
-              grid: [{
-                show: false,
-                z: 0,
-                left: "60px",
-                top: "70px",
-                right: "0px",
-                bottom: "70px",
-                containLabel: false,
-                backgroundColor: "#000000",
-                borderWidth: 1,
-                borderColor: "#ccc",
-              }],
-              series: [
-                {
-                  name: 'Close Price Trend',
-                  type: 'line',
-                  smooth: true,
-                  symbol: 'none',
-                  areaStyle: {},
-                  data: cursoredSymbolHistory?.map(item => [
-                    format(new Date(item.Date!), 'yyyy-MM-dd'),
-                    item.Open,
-                    item.Close,
-                    item.Low,
-                    item.High
-                  ])
-                }
-              ]
-            }}
-            notMerge={true}
-            lazyUpdate={true}
-            onChartReady={() => console.log('ready')}
-          />
+                    },
+                    position: (pt: number[]) => [pt[0], '10%']
+                  },
+                  xAxis: {
+                    type: 'time',
+                    boundaryGap: false
+                  },
+                  yAxis: {
+                    type: 'value',
+                    boundaryGap: [0, '100%']
+                  },
+                  dataZoom: [
+                    {
+                      type: 'inside',
+                      start: 80,
+                      end: 100
+                    },
+                    {
+                      start: 80,
+                      end: 100
+                    }
+                  ],
+                  grid: [{
+                    show: false,
+                    z: 0,
+                    left: "60px",
+                    top: "70px",
+                    right: "0px",
+                    bottom: "70px",
+                    containLabel: false,
+                    backgroundColor: "#000000",
+                    borderWidth: 1,
+                    borderColor: "#ccc",
+                  }],
+                  series: [
+                    {
+                      name: 'Close Price Trend',
+                      type: 'line',
+                      smooth: true,
+                      symbol: 'none',
+                      areaStyle: {},
+                      data: cursoredSymbolHistory?.map(item => [
+                        format(new Date(item.Date!), 'yyyy-MM-dd'),
+                        item.Open,
+                        item.Close,
+                        item.Low,
+                        item.High
+                      ])
+                    }
+                  ]
+                }}
+                notMerge={true}
+                lazyUpdate={true}
+                onChartReady={() => console.log('ready')}
+              />
+            </>
+          )}
         </div>
       )}
       <div className="more-data">
