@@ -10,6 +10,7 @@ const AnalysisWrapper = styled.div`
   .trigger-analyze {
     display: flex;
     justify-content: right;
+    margin-bottom: 20px;
   }
   .report {
     width: 100%;
@@ -17,6 +18,7 @@ const AnalysisWrapper = styled.div`
     display: block;
     white-space: pre-line;
     word-wrap: break-word;
+    margin-bottom: 20px;
   }
 `
 
@@ -42,9 +44,12 @@ const SymbolAnalysis = () => {
       {isLoading ? (
         <LoadingComponent />
       ) : analysis && (
-        <div className="report">
-          <div>{analysis.report}</div>
-        </div>
+        <>
+          <div className="report">
+            <div>{analysis.report}...</div>
+          </div>
+          <div>Subscribe for full information</div>
+        </>
       )}
     </AnalysisWrapper>
   )
